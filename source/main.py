@@ -3,7 +3,6 @@ import cv2
 
 faceCascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml')
 
-
 capture = cv2.VideoCapture(0) # za zajemanje videa 
 
 while(True):
