@@ -41,6 +41,5 @@ with open("labels.pickle", 'wb') as file:
     pickle.dump(labelDictionary, file)
 
 
-
 faceRecognizer.train(trainArray, np.array(labelArray))
 faceRecognizer.save("trainner.yml")
