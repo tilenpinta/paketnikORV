@@ -69,3 +69,40 @@ while(True):
 
 capture.release()
 cv2.destroyAllWindows()
+
+def LBPd(d):
+    LPBd1
+
+    for y in range(0, height - 1):
+        for x in range(0, width - 1):
+            byte = []
+            upL = grayImg[y-1, x-1]
+            upR = grayImg[y - 1, x + 1]
+            left = grayImg[y, x - 1]
+            right = grayImg[y, x + 1]
+            downL = grayImg[y + 1, x - 1]
+            down = grayImg[y + 1, x]
+            downR = grayImg[y + 1, x + 1]
+            arr = [upL, up, upR, left, right, downL, down, downR]
+
+            num = 0
+
+            for i in arr:
+                primerjaj = num+d
+
+                if primerjaj > 7:
+                    primerjaj = (primerjaj - 7) - 1
+
+                if i >= arr[primerjaj]:
+                    byte.append(1)
+                else:
+                    byte.append(0)
+                num =+ 1
+
+            rezultat = 0
+
+            for i in range(0, 8):
+                rezultat += utezi[i] * byte[i]
+
+            LBPd1[y, x] = rezultat
+    return LBPd1
