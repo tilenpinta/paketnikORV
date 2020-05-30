@@ -3,7 +3,6 @@ import cv2
 import _pickle as pickle
 import requests
 
-#loll
 faceCascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml')
 faceRecognizer = cv2.face.LBPHFaceRecognizer_create()
 faceRecognizer.read("trainner.yml")
