@@ -38,3 +38,31 @@ while(True):
 
 capture.release()
 cv2.destroyAllWindows()
+
+
+
+def LBP():
+    grayImg, LBD1
+
+    for y in range(0, height - 1):
+        for x in range(0, width - 1):
+            byte = []
+            rezultat = 0
+            upL = grayImg[y-1, x-1]
+            up = grayImg[y-1, x]
+            upR = grayImg[y-1, x+1]
+            left= grayImg[y, x-1]
+            center = grayImg[y, x]
+            right = grayImg[y, x+1]
+            downL = grayImg[y+1, x-1]
+            down= grayImg[y+1, x]
+            downR= grayImg[y+1, x+1]
+            for i in [upL, up, upR, left, right, downL, down, downR]:
+                if i >= center:
+                    byte.append(1)
+                else:
+                    byte.append(0)
+            for i in range(0, 8):
+                rezultat += byte[i]*utezi[i]
+            LBD1[y, x] = rezultat
+    return LBD1
