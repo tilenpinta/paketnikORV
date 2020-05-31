@@ -74,8 +74,10 @@ def LBPd(d):
 faceCascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml') # za detekcijo sprednjega dela obraza
 faceRecognizer = cv2.face.LBPHFaceRecognizer_create() # tega ne smemo uporabiti
 
+"""
 source_DF = inspect.getsource(cv2.face.LBPHFaceRecognizer_create())
 print(source_DF)
+"""
 
 faceRecognizer.read("trainner.yml") # ne smemo uporabiti, drugače pa read() prebere naš model, katerega smo naučili na podlagi slik (znotraj train.py skripte)
 
