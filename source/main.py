@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import _pickle as pickle
 import requests
+import inspect
 
 def lbp(image):
     height = image.shape[0]
@@ -72,7 +73,12 @@ def LBPd(d):
 
 faceCascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml') # za detekcijo sprednjega dela obraza
 faceRecognizer = cv2.face.LBPHFaceRecognizer_create() # tega ne smemo uporabiti
+
+source_DF = inspect.getsource(cv2.face.LBPHFaceRecognizer_create())
+print(source_DF)
+
 faceRecognizer.read("trainner.yml") # ne smemo uporabiti, drugače pa read() prebere naš model, katerega smo naučili na podlagi slik (znotraj train.py skripte)
+
 
 
 labelDictionary = {}  # direktorije labeliramo, ta labela je slovar (HashMap, Dictionary), ki je sestavljen iz id(ključ) na katerem se nahaja ime direktorija
@@ -90,8 +96,10 @@ while(True):
     facesArray = faceCascade.detectMultiScale(grayImage, scaleFactor=1.5, minNeighbors=5) # za detekcijo obraza (6 vrstica v tej skripti)
 
     for (x, y, w, h) in facesArray:
-        lbp = lbp(faceRecognizer.read()) #read da dobiš sliko
+        """
+        lbp = lbp(grayImage)
         cv2.imshow("LBP", lbp)
+        """
 
         regionOfInterestGray = grayImage[y:y+h, x:x+w]  # y je začetna točka, y+h pa končna točka vertikalne črte. x je začetna točka, x+w pa končna točka horizontalne črte
         
