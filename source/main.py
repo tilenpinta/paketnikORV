@@ -64,10 +64,10 @@ faceCascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt.x
 
 model = loadModel()
 capture = cv2.VideoCapture(0, cv2.CAP_DSHOW) # za zajemanje videa 
-print(model[1].hist)
+#print(model[1].hist)
    
-counterHis = 0
-counter = 0
+diff = np.zeros(len(model))
+
 while(True):
     ret, frame = capture.read()
     grayImage = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -78,12 +78,13 @@ while(True):
         cv2.rectangle(frame, (x,y), (x+w, y+h), (0, 0, 0), 3) # zacetne in končne koordinate x, y ter x+w in y+h
         histogram = LBPH(regionOfInterest)
         for i in range(len(model)):
-            #print("His", histogram)
             fml = np.float32(model[i].hist) 
-            diff = cv2.compareHist(fml, histogram, 1) #moralo bi bit 
-            print("Ime", model[i].id)
-            print(i, "Diff: ", diff)
-    cv2.imshow('Slika', frame)
+            diff[i] = cv2.compareHist(fml, histogram, 0) 
+        index = np.argmax(diff)
+    
+        cv2.putText(frame, model[index].id, (20,20), cv2.FONT_HERSHEY_SIMPLEX ,  
+                   1, (255, 0, 0), 3, cv2.LINE_AA) 
+        cv2.imshow('Slika', frame)
     if (cv2.waitKey(20) & 0xFF == ord('q')):
         break
 
