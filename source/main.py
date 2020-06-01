@@ -6,8 +6,6 @@ from scipy.spatial import procrustes
 import algorithm
 
 
-
-
 faceCascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt.xml') # za detekcijo sprednjega dela obraza, alt.xml se je pokazal kot najboljši (vsaj pri naših testih)
 model = algorithm.loadModel()
 diff = np.zeros(len(model))
