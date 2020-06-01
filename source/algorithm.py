@@ -1,3 +1,5 @@
+import numpy as np 
+
 def lbp(image):
     height = image.shape[0]
     width = image.shape[1]

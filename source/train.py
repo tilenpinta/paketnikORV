@@ -7,15 +7,9 @@ import json
 
 baseDir = os.path.dirname(os.path.abspath(__file__)) #pot do direktorija "source"
 imageDir = os.path.join(baseDir, "images") # tej poti dodamo še "images", dobimo pot do direktorija "images"
-
-faceCascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml') # za detekcijo sprednjega dela obraza
-faceRecognizer = cv2.face.LBPHFaceRecognizer_create() # ne smemo uporabit, drugače pa funkcija train() izlušči značilnice, katere s pomočjo save() shranimo v .yml datoteko 
+faceCascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt.xml') # za detekcijo sprednjega dela obraza
+#faceRecognizer = cv2.face.LBPHFaceRecognizer_create() # ne smemo uporabit, drugače pa funkcija train() izlušči značilnice, katere s pomočjo save() shranimo v .yml datoteko 
                                                       # na podlagi teh značilnic opravimo razpoznavo 
-
-labelArray = [] # y_labels
-labelDictionary = {} #label_ids
-trainArray = [] # x_train 
-currentId = 0
 
 class svmData:
     def __init__(self, id, hist):
@@ -60,7 +54,7 @@ def localBinaryPattern(image):
 def LBPH(img):
     imgLbp = localBinaryPattern(img)
     histogram = cv2.calcHist([imgLbp], [0], None, [256], [0, 256])
-    return histogram.astype(int)    
+    return histogram  
 
 def trainData(histogram, label):
     if not isinstance(histogram, int): 
@@ -78,20 +72,13 @@ def trainData(histogram, label):
 def train():
     with open('data.json', 'w') as file:
         file.write("")
-    currentId = 0
     for root, dirs, files in os.walk(imageDir):
         for file in files:
             if file.endswith("jpg") or file.endswith("png") or file.endswith("jpeg"): # sprejeti formati za branje slike so jpeg, jpg, png  
                 path = os.path.join(root, file) # dobimo pot do slike 
                 label = os.path.basename(os.path.dirname(path)).replace(" ", "-").lower() #dobimo direktorij od slike 
-    
-            # če osebo(ime direktorija) še ne poznamo, ga dodamo v slovar 
-    #            if(not label in labelDictionary):         
-     #               labelDictionary[label] = currentId
-      #              currentId += 1
-       #         id_ = labelDictionary[label] # v id_ shranimo ime direktorija(osebe)
                 
-                imageArray = cv2.imread(path, 0) # preberemo sliko, do katere smo pridobili pot
+                imageArray = cv2.imread(path, 0) # preberemo sliko, do katere smo pridobili pot, preberemo kot sivinsko sliko
                 
                 faces = faceCascade.detectMultiScale(imageArray, scaleFactor=1.5, minNeighbors=5) # iz prebrane slike (imageArray) vzamemo roi(regionOfInterest) oz. v našem primeru obraz osebe
 
@@ -101,18 +88,5 @@ def train():
                     regionOfInterest = imageArray[y:y+h, x:x+w]
                     histogram = LBPH(regionOfInterest)
                 trainData(histogram, label)
-                    #trainArray.append(histogram) # polje regionOfInteres (obraz), dodamo v polje za učenje modela
-                    #labelArray = np.append(labelArray, label) # dodamo še id direktorija(osebe)
-   # trainData(trainArray, labelArray)
-    #print(trainArray)
-    #print(labelArray[2])
+
 train()
-
-#with open("labels.pickle", 'wb') as file:
- #   pickle.dump(labelDictionary, file) #shranimo slovar, ki vsebuje id in ime direktorija(osebe)
-
-
-#faceRecognizer.train(trainArray, np.array(labelArray)) # učimo naš model
-#print(faceRecognizer.getThreshold())
-
-#faceRecognizer.save("trainner.yml") #shranimo, da lahko potem v main.py preberemo
