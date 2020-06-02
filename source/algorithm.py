@@ -48,9 +48,7 @@ def localBinaryPattern(image):
 def calcHist(img):
     height = img.shape[0]
     width = img.shape[1]
-    min = np.min(img)
-    max = np.max(img)
-    hist = np.zeros([256], np.int8)
+    hist = np.zeros((256, 1), dtype=np.float32)
     for i in range(0, height):
         for j in range(0, width):
             hist[img[i, j]] = hist[img[i, j]] + 1
@@ -58,8 +56,9 @@ def calcHist(img):
 
 def LBPH(img):
     imgLbp = localBinaryPattern(img)
-    histogram = cv2.calcHist([imgLbp], [0], None, [256], [0, 256])
-    return histogram
+    lel = calcHist(imgLbp)
+    #histogram = cv2.calcHist([imgLbp], [0], None, [256], [0, 256])
+    return lel
 
 def loadModel(): 
     svm = []
