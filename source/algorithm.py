@@ -68,4 +68,15 @@ def loadModel():
         svm.append(svmData(tmp["id"], tmp["hist"]))
     return svm
 
+def compereHist(hist1, hist2):
+    a = 0
+    b = 0
+    result = 0
+    for i in range(0, len(hist1)):
+        for j in range(0, len(hist1)):
+            a = hist1[i] - hist2[i]
+            b = hist1[i]
+            
+    result 
+
     
