@@ -4,6 +4,7 @@ import cv2
 import _pickle as pickle
 import json
 import algorithm
+import matplotlib.pyplot as plt
 
 baseDir = os.path.dirname(os.path.abspath(__file__)) #pot do direktorija "source"
 imageDir = os.path.join(baseDir, "images") # tej poti dodamo še "images", dobimo pot do direktorija "images"
@@ -40,6 +41,7 @@ def train():
                 for(x,y,w,h) in faces:
                     regionOfInterest = imageArray[y:y+h, x:x+w]
                     histogram = algorithm.LBPH(regionOfInterest)
+                    #plt.plot(histogram)
                 trainData(histogram, label)
 
 
