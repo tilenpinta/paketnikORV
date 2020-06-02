@@ -49,15 +49,13 @@ def localBinaryPattern(image):
 def calcHist(img):
     height = img.shape[0]
     width = img.shape[1]
-    c1 = [0] * 256
-    c2 = [0] * 256
-    c3 = [0] * 256
+    min = np.min(img)
+    max = np.max(img)
+    hist = np.zeros([256], np.int8)
     for i in range(0, height):
         for j in range(0, width):
-            c1[img[i, j, 0]] = c1[img[i, j, 0]] + 1
-            c2[img[i, j, 1]] = c2[img[i, j, 1]] + 1
-            c3[img[i, j, 2]] = c3[img[i, j, 2]] + 1
-    return c1, c2, c3
+            hist[img[i, j]] = hist[img[i, j]] + 1
+    return hist
 
 def LBPH(img):
     imgLbp = localBinaryPattern(img)
