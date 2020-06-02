@@ -1,6 +1,11 @@
 import numpy as np 
 import cv2
 import json
+import math
+from decimal import Decimal
+
+
+DBL_EPSILON = np.finfo(float).eps
 
 class svmData:
     def __init__(self, id, hist):
@@ -68,15 +73,17 @@ def loadModel():
         svm.append(svmData(tmp["id"], tmp["hist"]))
     return svm
 
-def compereHist(hist1, hist2):
+def compareHist(hist1, hist2):
     a = 0
     b = 0
     result = 0
+    resultDec = 0
     for i in range(0, len(hist1)):
-        for j in range(0, len(hist1)):
-            a = hist1[i] - hist2[i]
-            b = hist1[i]
-            
-    result 
+        a = hist1[i] - hist2[i]
+        b = hist1[i]
+        if math.fabs(b) > DBL_EPSILON:
+            result += a*a/b
+    result = list(result)
+    return result
 
     

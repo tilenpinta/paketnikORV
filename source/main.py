@@ -4,7 +4,6 @@ import _pickle as pickle
 import json
 import algorithm
 
-DBL_EPSILON = np.finfo(float).eps
 
 faceCascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt.xml') # za detekcijo sprednjega dela obraza, alt.xml se je pokazal kot najboljši (vsaj pri naših testih)
 model = algorithm.loadModel()
@@ -24,14 +23,10 @@ while(True):
         for i in range(len(model)):
             fml = np.float32(model[i].hist) 
             tmp = cv2.compareHist(fml, histogram, 1)
-            le = 0
-            lel = 0
-            le = len(fml)
-            for x in range(0, le):
-                lel += fml[x]
-            print(lel)
-            print("nibba")
+            tmp2 = algorithm.compareHist(fml, histogram)
             print(tmp)
+            print("nibba")
+            print(tmp2)
             #print(tmp, model[i].id)           
  #if(tmp > 0.9):
             diff[i] = tmp
