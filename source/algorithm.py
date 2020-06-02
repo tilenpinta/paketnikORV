@@ -2,12 +2,11 @@ import numpy as np
 import cv2
 import json
 
-
 class svmData:
     def __init__(self, id, hist):
         self.id = id
         self.hist = hist
-        
+
 def resizeImage(img):
     scale_percent = 60 # percent of original size
     width = int(img.shape[1] * scale_percent / 100)
@@ -58,3 +57,5 @@ def loadModel():
         tmp = json.loads(line)
         svm.append(svmData(tmp["id"], tmp["hist"]))
     return svm
+
+    

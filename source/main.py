@@ -2,18 +2,13 @@ import numpy as np
 import cv2
 import _pickle as pickle
 import json
-from scipy.spatial import procrustes
 import algorithm
-
-
-
 
 faceCascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt.xml') # za detekcijo sprednjega dela obraza, alt.xml se je pokazal kot najboljši (vsaj pri naših testih)
 model = algorithm.loadModel()
 diff = np.zeros(len(model))
 capture = cv2.VideoCapture(0, cv2.CAP_DSHOW) # za zajemanje videa 
 
-   
 while(True):
     ret, frame = capture.read()
     grayImage = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -25,12 +20,14 @@ while(True):
         histogram = algorithm.LBPH(regionOfInterest)
         for i in range(len(model)):
             fml = np.float32(model[i].hist) 
-            diff[i] = cv2.compareHist(fml, histogram, 0) 
-        index = np.argmax(diff)
-    
-        cv2.putText(frame, model[index].id, (x-10,y-10), cv2.FONT_HERSHEY_SIMPLEX ,  
-                   1, (255, 0, 0), 3, cv2.LINE_AA) 
-        cv2.imshow('Slika', frame)
+            tmp = cv2.compareHist(fml, histogram, 1) 
+            #print(tmp, model[i].id)           
+ #if(tmp > 0.9):
+            diff[i] = tmp
+        index = np.argmin(diff)
+        if(diff[index] < 15000):
+            cv2.putText(frame, model[index].id, (x-10,y-10), cv2.FONT_HERSHEY_SIMPLEX,  1, (255, 0, 0), 3, cv2.LINE_AA) 
+    cv2.imshow('Slika', frame)
     if (cv2.waitKey(20) & 0xFF == ord('q')):
         break
 
