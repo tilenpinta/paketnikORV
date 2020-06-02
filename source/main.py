@@ -22,14 +22,17 @@ while(True):
         histogram = algorithm.LBPH(regionOfInterest)
         for i in range(len(model)):
             fml = np.float32(model[i].hist) 
-            tmp = cv2.compareHist(fml, histogram, 1)
+            #tmp = cv2.compareHist(fml, histogram, 1)
             tmp2 = algorithm.compareHist(fml, histogram)
-            print(tmp)
-            print("nibba")
-            print(tmp2)
+            #print(tmp)
+            #print(type(tmp))
+            #print("nibba")
+            #print(tmp2)
+            #print(type(tmp2))
+            #print("lel")
             #print(tmp, model[i].id)           
  #if(tmp > 0.9):
-            diff[i] = tmp
+            diff[i] = tmp2
         index = np.argmin(diff)
         if(diff[index] < 15000):
             cv2.putText(frame, model[index].id, (x-10,y-10), cv2.FONT_HERSHEY_SIMPLEX,  1, (255, 0, 0), 3, cv2.LINE_AA) 

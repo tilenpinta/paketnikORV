@@ -74,16 +74,19 @@ def loadModel():
     return svm
 
 def compareHist(hist1, hist2):
-    a = 0
-    b = 0
-    result = 0
-    resultDec = 0
+    a = 0.0
+    b = 0.0
+    result = 0.0
+    his1 = 0.0
+    his2 = 0.0
     for i in range(0, len(hist1)):
-        a = hist1[i] - hist2[i]
-        b = hist1[i]
+        his1 = hist1[i].astype(float)
+        his2 = hist2[i].astype(float)
+        a = his1 - his2
+        b = his1
         if math.fabs(b) > DBL_EPSILON:
             result += a*a/b
-    result = list(result)
-    return result
+    
+    return result[0]
 
     
